@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Инвентарь</title>
+    <link rel="stylesheet" href="../static/css/style_inventory.css">
+</head>
+<body>
+
+    <div class="left">
+        <div class="navigation">
+            <button class="redirect" data-to="/pages/trade">К торговцу</button><br>
+            <button class="redirect" data-to="/pages/inventory">К инвенторю</button><br>
+            <button class="upd" data-to="/character/inventory/todungeon" data-redir="/pages/dungeon" data-oph="todungeon">В подземелье !</button><br>
+            <button class="upd" data-to="/auth/logout" data-redir="/pages/auth" data-oph="logout">Выйти из аккаунта</button><br>
+        </div>
+    </div>
+
+    <div class="midPart">
+        <div class="charact">
+            <div class="gears">
+                <p class="actual_lvl">Уровень персонажа: {{operations[0]['level']}}</p>
+                <p class="actual_xp">{{operations[0]['actual_xp']}} / {{operations[0]['xp_to_level']}}</p>
+                <button class="upd" data-to="/character/inventory/levelup" data-oph="levelup">Поднять уровень</button>
+                <ul>
+                    {% set gear_list = operations[1] %}
+
+                    {% for gear in gear_list %}
+                        {% set item = gear_list[gear] %}
+                        <li>
+                            {{item['type']}}
+                            <div class="item_wrapper" data-type="{{item['type']}}" data-param="{{gear}}">
+                                {% if item|length != 1 %}
+                                    <div class="item gear" draggable="true" data-id="{{item['id']}}" data-type="{{item['type']}}" data-gear="{{item['type']}}" data-param="{{gear}}">
+                                        <img class="forImageInv" src="{{item['image']}}" alt="АААААААА не подгрузил">
+                                        <p class="name-{{item['id']}}">{{item['name']}}</p>
+                                        <button class="mr" data-iid="{{item['id']}}" data-use="false" data-who="2">Информация</button>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+
+                <p class="actual_health">Здоровье: {{operations[0]['health']}}</p>
+                <p class="actual_attack_point">Атака: {{operations[0]['attack_point']}}</p>
+                <p class="actual_defend">Защита: {{operations[0]['defend']}}</p>
+            </div>
+        </div>
+
+        <div class="inventory" data-type="inventory" data-param="inventory">
+            {% for item in operations[2] %}
+
+                <div class="item" draggable="true" data-id="{{item['id']}}" data-type="{{item['type']}}" data-param="inventr">
+                    <img class="forImageInv" src="{{item['image']}}" alt="АААААААА не подгрузил">
+                    <p class="name-{{item['id']}}">{{item['name']}}</p>
+                    <button class="mr" data-iid="{{item['id']}}" data-use="false" data-who="1">Информация</button>
+                </div>
+
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="right">
+        <div class="edge" id="edge">
+            {{operations[0]['nickname']}} : {{operations[0]['wallet']}}
+        </div>
+    </div>
+
+    <script>
+        const True = true;
+        const False = false;
+        const None = null;
+
+        window.charact = {{ operations[0] | safe }}
+        window.inventory = {{ operations[2] | safe }};
+        window.gears = {{ operations[1] | safe }};
+        window.dragged_box = 'a';
+        window.type = 'a';
+        window.id = 1;
+        window.from = 'a';
+    </script>
+
+    <script>
+      const body = document.querySelector("body");
+
+      body.addEventListener("dragstart", (e) => {
+         const id = Number(e.target.dataset.id);
+         const type = String(e.target.dataset.type);
+
+         const from = e.target.closest(".inventory, .item_wrapper");
+
+         let object;
+
+         if (e.target.classList.contains("gear")) {
+            object = Object.values(window.gears).find(item => item.id === id);
+         } else {
+            object = window.inventory.find(item => item.id === id);
+         }
+         /*
+         e.dataTransfer.setData("type/dragged-box", 'dragged');
+         e.dataTransfer.setData("item/type", type);
+         e.dataTransfer.setData("item/id", id);
+         e.dataTransfer.setData("item/from", from.dataset.type ?? "inventory");
+         */
+
+         window.dragged_box = 'dragged';
+         window.type = type;
+         window.id = id;
+         if (from.dataset.type === "undefined") {
+            window.from = "inventory";
+
+         }
+         else {
+            window.from = from.dataset.type;
+         }
+
+         e.target.classList.add("dragged");
+
+         const slots = document.querySelectorAll(`.gears .item_wrapper[data-type="${type}"]`);
+
+         for (const slot of slots) {
+            slot.classList.add("green"); // Класс обозначающий достпуные слоты
+         }
+
+         // Здесь можно вставить свой код начала перетаскивания
+      })
+
+      body.addEventListener("dragend", (e) => {
+         const greens = document.querySelectorAll(".green");
+
+         for (const green of greens) {
+            green.classList.remove("green");
+         }
+
+         document.querySelector(".over_zone")?.classList.remove("over_zone");
+
+         e.target.classList.remove("dragged");
+      })
+
+      const drop_zones = document.querySelectorAll(".inventory, .item_wrapper");
+
+      for (const drop_zone of drop_zones) {
+         drop_zone.addEventListener("dragenter", function (e) {
+            if (window.dragged_box === 'dragged') {
+
+               if (this.classList.contains("inventory") || this.dataset.type === window.type) {
+                  this.classList.add("over_zone");
+
+                  e.preventDefault();
+               }
+            }
+         })
+
+         drop_zone.addEventListener("dragover", function (e) {
+            if (window.dragged_box === 'dragged' && (this.classList.contains("inventory") || this.dataset.type === window.type)) {
+               e.preventDefault();
+            }
+         })
+
+         drop_zone.addEventListener("dragleave", function (e) {
+            if (window.dragged_box === 'dragged' &&
+               e.relatedTarget !== null &&
+               e.currentTarget !== e.relatedTarget.closest('.over_zone')) {
+
+               this.classList.remove("over_zone"); // Класс для зоны над которой сейчас находится элемент (если можно)
+            }
+         })
+
+         drop_zone.addEventListener("drop",  async(e) => {
+            const draggedElement = document.querySelector('.dragged');
+
+            if (!e.currentTarget.classList.contains("inventory") && e.currentTarget.children.length > 0) {
+               const parent = draggedElement.parentElement;
+               parent.appendChild(e.currentTarget.children[0])
+            }
+
+            e.currentTarget.appendChild(draggedElement);
+
+            e.preventDefault();
+
+            // Здесь можно вставит код конца перетаскивания
+
+            let drop_item_param = draggedElement.dataset.param;
+            let drop_zone_param = "";
+            console.log(drop_zone);
+            if (drop_zone.dataset.param === "undefined") {
+                drop_zone_param = "inventory";
+            }
+            else {
+
+               drop_zone_param = drop_zone.dataset.param;
+
+            }
+            console.log(drop_zone_param);
+            let id_item_new = drop_zone.dataset.id;
+
+            if (drop_item_param === "inventr") {
+
+                if (drop_zone_param !== "inventory" && drop_zone_param !== "inventr") {
+
+                    const data = {};
+
+                    data["gear_type"] = String(drop_zone_param);
+                    data["new_item"] = Number(draggedElement.dataset.id);
+
+                    const res = await fetch("/character/inventory/swap", {
+                        method: "PATCH",
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(data),
+                    });
+                    request = (await res.json());
+                    status = request.status;
+
+                    if (status !== "success") {
+                        window.alert("Ошибка !");
+                    }
+
+                    //location.reload();
+                }
+
+            }
+            else {
+                //console.log(drop_zone_param);
+                if (drop_zone_param === "inventory") {
+                    console.log("AAAAAAAAAA")
+                    const data = {};
+
+                    data["remove_item"] = Number(draggedElement.dataset.id);
+                    data["gear_type"] = String(drop_item_param);
+
+                    const res = await fetch("/character/inventory/remove", {
+                        method: "PATCH",
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(data),
+                    });
+                    request = (await res.json());
+                    status = request.status;
+
+                    if (status !== "success") {
+                        window.alert("Ошибка !");
+                    }
+
+                    //location.reload();
+
+                }
+
+                else if (drop_zone_param === "inventr") {
+
+                    const data = {};
+
+                    data["gear_type"] = String(drop_item_param);
+                    data["new_item"] = Number(id_item_new);
+
+                    const res = await fetch("/character/inventory/swap", {
+                        method: "PATCH",
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(data),
+                    });
+                    request = (await res.json());
+                    status = request.status;
+
+                    if (status !== "success") {
+                        window.alert("Ошибка !");
+                    }
+
+                    //location.reload();
+
+                }
+
+                else {
+
+                    const data = {};
+
+                    data["gear_type"] = String(drop_item_param);
+                    data["new_item"] = Number(draggedElement.dataset.id);
+
+                    const res = await fetch("/character/inventory/swap", {
+                        method: "PATCH",
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(data),
+                    });
+                    request = (await res.json());
+                    status = request.status;
+
+                    if (status !== "success") {
+                        window.alert("Ошибка !");
+                    }
+
+                    //location.reload();
+
+                }
+
+            }
+
+
+         })
+      }
+   </script>
+
+    <script src="/static/js/redirect_btn_script.js"></script>
+    <script src="/static/js/update_script.js"></script>
+    <script src="/static/js/inform_invent_script.js"></script>
+
+</body>
+</html>

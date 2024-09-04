@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../static/css/style_dungeon.css">
+</head>
+<body>
+    <div class="dungeonLeft"></div>
+
+    <div class="midPart">
+        {% set charact = operations[0] %}
+        <div class="character" id="character_container">
+            <h2>Персонаж</h2>
+            <div class="charact" data-iid="div-0" >
+                <img class="imgCharact" src="{{charact['image']}}" alt="АААААААА не подгрузил">
+                <p data-iid="nick">{{charact['nickname']}}</p>
+                <p class="health-charct" id="health-charct" data-iid="health">Здоровье: {{charact['health']}}</p>
+                <p class="damage-charct" data-iid="damage">Атака: {{charact['attack_point']}}</p>
+            </div>
+        </div>
+
+        <div class="enemy_container" id="enemy_container">
+            <h2>Враги</h2>
+            {% for enemy in operations[1] %}
+                <div class="enemy" data-iid="div-{{enemy['id']}}">
+                    <img class="imgEnemy" src="{{enemy['image']}}" alt="АААААААА не подгрузил">
+                    <p data-iid="enem">{{enemy['name']}}</p>
+                    <p class="health" data-iid="health-{{enemy['id']}}">Здоровье: {{enemy['health']}}</p>
+                    <p class="damage" data-iid="damage-{{enemy['id']}}">Атака: {{enemy['attack_point']}}</p>
+                    <button class="upd" data-iid="{{enemy['id']}}" data-to="/dungeon/battle/attack" data-op="enemy_id" data-oph="attack">Атаковать</button>
+                </div>
+
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="right">
+        <button class="upd" data-to="/dungeon/battle/leave" data-redir="/pages/inventory" data-oph="leave">
+            Покинуть подземелье
+        </button>
+    </div>
+
+    <script>
+        const True = true;
+        const False = false;
+        const None = null;
+        const Undefined = undefined;
+
+        window.enemys = {{ operations[1] | safe }};
+        window.charact = {{ operations[0] | safe }}
+
+    </script>
+    <script src="/static/js/update_script.js"></script>
+</body>
+</html>

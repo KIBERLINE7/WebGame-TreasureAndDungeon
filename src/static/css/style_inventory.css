@@ -1,0 +1,150 @@
+*
+{
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+}
+
+body
+{
+     background-image: url(../image/storage.jpg);
+     background-repeat: no-repeat;
+     background-size: cover;
+     background-position: center;
+}
+
+.forImageInv
+{
+     width: 60%;
+     margin-top: 1vh;
+
+}
+
+ul
+{
+     list-style: none;
+}
+
+li
+{
+     margin-bottom: .5em;
+}
+
+.item_wrapper
+{
+     display: inline-block;
+     vertical-align: top;
+     padding: .1em;
+     background-color: aliceblue;
+     border: 1px dotted #000;
+     aspect-ratio: 1 / 1;
+     width: 50%;
+     transition: .5s;
+}
+
+/*.gears
+{
+     border: 1px dashed black;
+     background-color: rgba(255, 228, 196, 0.75);
+}*/
+
+.inventory
+{
+     width: 50%;
+     float: left;
+     transition: background-color 0.5s;
+     padding: 2vh;
+     gap: .4%;
+     height: max-content;
+     display: grid;
+     grid-template-columns: repeat(auto-fill, 40%);
+     border: 1px dashed black;
+     background-color: rgba(255, 228, 196, 0.75);
+     margin-bottom: 2em;
+}
+
+.item
+{
+     aspect-ratio: 1 / 1;
+     border: 1px solid black;
+     background-color: #ccc;
+     width: 100%;
+     padding: .2em;
+}
+
+.green
+{
+     background-color: greenyellow;
+     border-color: green;
+}
+
+.dragged
+{
+     opacity: 0.5;
+}
+
+.over_zone
+{
+     background-color: green;
+}
+
+.left
+{
+     height: 100vh;
+     width: 15%;
+     float: left;
+     text-align: center;
+}
+
+.midPart
+{
+     background-image: url(../image/inventory.jpg);
+     background-position: center;
+     overflow: scroll;
+     height: 98vh;
+     width: 68%;
+     float: left;
+     color: black;
+     font-style: italic;
+     font-size: x-large;
+     border: 1vh ridge #3a4d19;
+}
+
+.right
+{
+     height: 100vh;
+     width: 15%;
+     float: left;
+     text-align: center;
+     color: aliceblue;
+     font-style: italic;
+     font-size: x-large;
+}
+
+.charact
+{
+     width: 50%;
+     float: left;
+     padding: 2vh;
+     border: 1px dashed black;
+     background-color: rgba(255, 228, 196, 0.75);
+}
+
+.left button
+{
+     margin-top: 2vh;
+     padding: 2vh;
+     font-style: italic;
+     font-size: large;
+     box-shadow: 0px 0px 5vh rgba(240, 248, 255, 0.7);
+}
+
+.midPart button
+{
+     margin-top: 1vh;
+     margin-bottom: 3vh;
+     padding: 1vh;
+     font-style: italic;
+     font-size: medium;
+     box-shadow: 0px 0px 5vh rgba(240, 248, 255, 0.7);
+}

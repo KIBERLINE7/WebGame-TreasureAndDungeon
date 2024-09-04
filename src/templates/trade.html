@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body class="body-trade">
+    <div class="navigationTradeLeft">
+        <button class="redirectTrade redirect" data-to="/pages/trade">К торговцу</button>
+        <br>
+        <button class="redirectTrade redirect" data-to="/pages/inventory">К инвенторю</button>
+    </div>
+
+    <div class="midPart">
+        <div class="trader_container" id="trader_container">
+            <h2>Торговец</h2>
+            {% for item in operations[2] %}
+
+            <div class="item" data-iid="div-{{item['id']}}" >
+                <img class="forImageTrade" src="{{item['image']}}" alt="АААААААА не подгрузил">
+                <p>{{item['name']}}</p>
+                <p class="price{{item['id']}}">Цена: {{item['price']}}</p>
+                <button class="mr mrStyle" data-iid="{{item['id']}}" data-use="false" data-who="2">Информация</button>
+                <button class="upd mrStyle" data-iid="{{item['id']}}" data-to="/trader/market/buy" data-op="items_id" data-oph="buy">Купить</button>
+            </div>
+
+            {% endfor %}
+        </div>
+
+        <div class="character_container" id="character_container">
+            <h2>Персонаж</h2>
+            {% for item in operations[1] %}
+
+            <div class="item" data-iid="div-{{item['id']}}">
+                <img class="forImageTrade" src="{{item['image']}}" alt="АААААААА не подгрузил">
+                <p>{{item['name']}}</p>
+                <p class="price{{item['id']}}">Цена: {{item['price']}}</p>
+                <button class="mr mrStyle" data-iid="{{item['id']}}" data-use="false" data-who="1">Информация</button>
+                <button class="upd mrStyle" data-iid="{{item['id']}}" data-to="/trader/market/sell" data-op="items_id" data-oph="sell">Продать</button>
+            </div>
+
+            {% endfor %}
+        </div>
+
+    </div>
+
+    <div class="right">
+        <div class="edge" id="edge">
+            {{operations[0]['nickname']}} : {{operations[0]['wallet']}}
+        </div>
+    </div>
+
+    <script>
+        const True = true;
+        const False = false;
+        const None = null;
+        const Undefined = undefined;
+
+        window.trade = {{ operations[2] | safe }};
+        window.inventory = {{ operations[1] | safe }};
+        window.charact = {{ operations[0] | safe }}
+    </script>
+    <script src="/static/js/update_script.js"></script>
+    <script src="/static/js/redirect_btn_script.js"></script>
+    <script src="/static/js/inform_script.js"></script>
+</body>
+</html>

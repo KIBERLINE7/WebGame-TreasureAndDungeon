@@ -1,0 +1,157 @@
+*
+{
+    margin: 0;
+    padding: 0;
+}
+
+.body
+{
+    background-image: url(../image/book.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.body-trade
+{
+    background-image: url(../image/lavka.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.left, .navigationTradeLeft
+{
+    height: 100vh;
+    width: 20%;
+    float: left;
+}
+
+.med
+{
+    background-image: url(../image/perg.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 98vh;
+    width: 58%;
+    float: left;
+    border: 1vh ridge #3a4d19;
+}
+
+.right
+{
+    height: 100vh;
+    width: 15%;
+    float: left;
+    text-align: center;
+    color: aliceblue;
+    font-style: italic;
+    font-size: x-large;
+}
+
+.forForm
+{
+    width: 60%;
+    height: 67vh;
+    margin-left: 20%;
+    margin-top: 10vh;
+    padding-top: 3vh;
+    color: aliceblue;
+    font-style: italic;
+    font-size: xx-large;
+
+    text-align: center;
+}
+
+.forForm h1
+{
+    margin-bottom: 10vh;
+    color: aliceblue;
+    font-style: italic;
+}
+
+.marg_inp
+{
+    margin-bottom: 1vh;
+    padding: 2vh;
+    font-style: italic;
+    font-size: large;
+    box-shadow: 0px 0px 5vh rgba(240, 248, 255, 0.7);
+}
+
+.forForm a
+{
+    color: aliceblue;
+}
+
+.navigationTradeLeft
+{
+    height: 100vh;
+    width: 15%;
+    float: left;
+    text-align: center;
+}
+
+.midPart
+{
+    background-image: url(../image/perg.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    overflow: scroll;
+    height: 98vh;
+    width: 68%;
+    float: left;
+    color: aliceblue;
+    font-style: italic;
+    font-size: x-large;
+    border: 1vh ridge #3a4d19;
+    text-align: center;
+}
+
+.forImageTrade
+{
+    width: 35%;
+    margin-top: 2vh;
+}
+
+.redirectTrade
+{
+    margin-top: 3vh;
+    padding: 2vh;
+    font-style: italic;
+    font-size: large;
+    box-shadow: 0px 0px 5vh rgba(240, 248, 255, 0.7);
+}
+
+.mrStyle
+{
+    margin-top: 2vh;
+    padding: 1vh;
+    font-style: italic;
+    font-size: medium;
+    box-shadow: 0px 0px 5vh rgba(240, 248, 255, 0.7);
+}
+
+.trader_container
+{
+    width: 50%;
+    float: left
+}
+
+.character_container
+{
+    width: 50%;
+    float: left
+}
+
+li
+{
+    list-style-type: none; /* Убираем маркеры */
+}
+
+.edge
+{
+    margin-top: 2vh;
+}
