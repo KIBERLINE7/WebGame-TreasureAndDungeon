@@ -3,9 +3,9 @@
 # This project is written and uses the Fast API framework
 
 Basic commands for launching and working with the project:
-1) uvicorn main:app --reload
+1) uvicorn main:app --reload  
 Launching the project
-2) alembic revision --autogenerate -m ""
+2) alembic revision --autogenerate -m "Your naming"  
 Creating a version for adding to the database
 
 ------------------------------------------------
