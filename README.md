@@ -1,6 +1,6 @@
 # WebGame-TreasureAndDungeon
 
-# This project is written and uses the Fast API framework
+# This project is written and uses the Fast API framework and connect with sqlalchemy to PostgresSQL database
 
 Basic commands for launching and working with the project:
 1) uvicorn main:app --reload  
